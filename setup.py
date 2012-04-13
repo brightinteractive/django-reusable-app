@@ -10,8 +10,8 @@ import sys
 name = 'django-reusable-app'
 package = 'myproject'
 description = ''
-url = 'http://github.com/.../.../'
-author = ''
+url = 'http://github.com/brightinteractive/.../'
+author = 'Bright Interactive'
 author_email = ''
 license = 'BSD'
 install_requires = []
