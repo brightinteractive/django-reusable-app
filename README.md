@@ -21,7 +21,7 @@ Creating a new app
 
 You'll want to clone this project, then create a fresh git repo for it:
 
-    git clone git://github.com/dabapps/django-reusable-app.git my-project-name
+    git clone git://github.com/brightinteractive/django-reusable-app.git my-project-name
     cd my-project-name
     mv myproject packagename
     rm -rf .git
