@@ -29,6 +29,7 @@ You'll want to clone this project, then create a fresh git repo for it:
 
 Edit `testsettings.py` and update the app name in INSTALLED_APPS.
 Edit `setup.py` and update the settings at the top of the file.
+Edit MANIFEST.in and add rules for your static files and templates.
 Edit the `README`.
 
 Publishing releases to PyPI
