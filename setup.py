@@ -1,11 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from setuptools import setup
+from setuptools import setup, find_packages
 import re
 import os
 import sys
 
+root_package_dir = '.'
 
 name = 'django-reusable-app'
 package = 'myproject'
@@ -15,48 +16,22 @@ author = 'Bright Interactive'
 author_email = ''
 license = 'BSD'
 install_requires = []
+packages = find_packages(root_package_dir)
 
 
 def get_version(package):
     """
     Return package version as listed in `__version__` in `init.py`.
     """
-    init_py = open(os.path.join(package, '__init__.py')).read()
+    init_py = open(os.path.join(root_package_dir, package, '__init__.py')).read()
     return re.search("^__version__ = ['\"]([^'\"]+)['\"]", init_py, re.MULTILINE).group(1)
 
+script_args = sys.argv[1:]
+display_tag_message = False
 
-def get_packages(package):
-    """
-    Return root package and all sub-packages.
-    """
-    return [dirpath
-            for dirpath, dirnames, filenames in os.walk(package)
-            if os.path.exists(os.path.join(dirpath, '__init__.py'))]
-
-
-def get_package_data(package):
-    """
-    Return all files under the root package, that are not in a
-    package themselves.
-    """
-    walk = [(dirpath.replace(package + os.sep, '', 1), filenames)
-            for dirpath, dirnames, filenames in os.walk(package)
-            if not os.path.exists(os.path.join(dirpath, '__init__.py'))]
-
-    filepaths = []
-    for base, filenames in walk:
-        filepaths.extend([os.path.join(base, filename)
-                          for filename in filenames])
-    return {package: filepaths}
-
-
-if sys.argv[-1] == 'publish':
-    os.system("python setup.py sdist upload")
-    args = {'version': get_version(package)}
-    print "You probably want to also tag the version now:"
-    print "  git tag -a v%(version)s -m 'Version %(version)s'" % args
-    print "  git push --tags"
-    sys.exit()
+if script_args and script_args[-1] == 'publish':
+    script_args[-1:] = ['sdist', 'upload']
+    display_tag_message = True
 
 
 setup(
@@ -67,7 +42,15 @@ setup(
     description=description,
     author=author,
     author_email=author_email,
-    packages=get_packages(package),
-    package_data=get_package_data(package),
-    install_requires=install_requires
+    packages=packages,
+    package_dir={'': root_package_dir},
+    install_requires=install_requires,
+    script_args=script_args,
+    include_package_data=True
 )
+
+if display_tag_message:
+    args = {'version': get_version(package)}
+    print "You probably want to also tag the version now:"
+    print "  git tag -a v%(version)s -m 'Version %(version)s'" % args
+    print "  git push --tags"
