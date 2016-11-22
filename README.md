@@ -35,6 +35,17 @@ Edit the `README`.
 Publishing releases to PyPI
 ===========================
 
+Only Bright Interactive employees can publish a release. Ensure you have a .pypirc file in your home directory configured to publish to the bright PyPI account (real password has been redacted).
+
+```
+[pypirc]
+servers = pypi
+
+[server-login]
+username:bright
+password:******
+```
+
 To register your package on PyPI:
 
     ./setup.py register
